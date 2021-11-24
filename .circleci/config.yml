@@ -172,7 +172,7 @@ jobs:
       - run:
           name: add tar utility
           command: |
-            apk add --update tar gzip
+            yum -y install tar gzip
       - run:
           name: Ensure back-end infrastructure exists
           command: |
@@ -407,7 +407,7 @@ jobs:
       - run:
           name: Install dependencies
           command: |
-            apk add --update tar gzip curl nodejs npm
+            yum -y install tar gzip curl nodejs npm
       - run:
           name: Update cloudfront distribution
           command: |
