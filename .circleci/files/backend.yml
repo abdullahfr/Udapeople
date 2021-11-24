@@ -33,7 +33,7 @@ Resources:
       SecurityGroups:
         - Ref: InstanceSecurityGroup
       KeyName: newkey19 
-      ImageId: 'ami-0629230e074c580f2' #'ami-083654bd07b5da81d' 
+      ImageId: 'ami-083654bd07b5da81d' 
       Tags:
         - Key: Name
           Value: !Sub backend-${ID}
