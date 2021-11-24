@@ -135,6 +135,7 @@ jobs:
           name: Analyze front-end
           command: |
             cd frontend
+            npm install
             npm audit fix --audit-level=critical --force
       - slack/notify:
           event: fail
@@ -154,6 +155,7 @@ jobs:
           name: Analyze back-end
           command: |
             cd backend
+            npm install
             npm audit fix --audit-level=critical --force
       - slack/notify:
           event: fail
