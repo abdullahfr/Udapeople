@@ -197,7 +197,7 @@ jobs:
               --filters "Name=tag:project,Values=udapeople-backend" \
               --output text)
 
-            echo "[web]\n"${BACKEND_IP} > ./inventory.txt
+            echo "[web]\n"${BACKEND_IP} > project/.circleci/ansible/inventory.txt
             echo "BACKEND IP:"
             echo ${BACKEND_IP}
 
@@ -222,7 +222,7 @@ jobs:
       - add_ssh_keys:
           fingerprints: ["da:e1:44:8d:ca:99:ff:2d:89:c8:af:1b:83:8c:e4:d4"]
       - attach_workspace:
-          at: ~/project/.circleci/ansible/inventory.txt
+          at: ~/
       - run:
           name: Install dependencies
           command: |
