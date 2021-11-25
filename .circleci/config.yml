@@ -197,7 +197,7 @@ jobs:
               --filters "Name=tag:project,Values=udapeople-backend" \
               --output text)
 
-            echo ${BACKEND_IP} >> ./inventory.txt
+            echo "[web]\n"${BACKEND_IP} > ./inventory.txt
             echo "BACKEND IP:"
             echo ${BACKEND_IP}
 
