@@ -207,7 +207,7 @@ jobs:
               --data ${BACKEND_IP} https://api.memstash.io/values/backendip
 
       - persist_to_workspace:
-          root: ~/
+          root: /root
           paths:
             - project/.circleci/ansible/inventory.txt
 
@@ -234,10 +234,12 @@ jobs:
       - run:
           name: Configure server
           command: |
+          
+            cat project/.circleci/ansible/inventory.txt
+            echo " --- "
             cd ~/project/.circleci/ansible
             cat inventory.txt
-            echo "\n"
-            cat project/.circleci/ansible/inventory.txt
+            
             ansible-playbook -i ~/inventory.txt configure-server.yml
       - destroy-environment:
           workflow_id: "${CIRCLE_WORKFLOW_ID:0:7}"         
