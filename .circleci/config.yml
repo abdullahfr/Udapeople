@@ -237,7 +237,7 @@ jobs:
             cd ~/project/.circleci/ansible
             cat inventory.txt
             echo "\n"
-            cat ~/inventory.txt
+            cat project/.circleci/ansible/inventory.txt
             ansible-playbook -i ~/inventory.txt configure-server.yml
       - destroy-environment:
           workflow_id: "${CIRCLE_WORKFLOW_ID:0:7}"         
