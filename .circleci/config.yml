@@ -207,9 +207,9 @@ jobs:
               --data ${BACKEND_IP} https://api.memstash.io/values/backendip
 
       - persist_to_workspace:
-          root: /root
+          root: ~/
           paths:
-            - project/.circleci/ansible/inventory.txt
+            - ~/project/.circleci/ansible/inventory.txt
 
       - destroy-environment:
           workflow_id: "${CIRCLE_WORKFLOW_ID:0:7}"      
@@ -222,7 +222,7 @@ jobs:
       - add_ssh_keys:
           fingerprints: ["da:e1:44:8d:ca:99:ff:2d:89:c8:af:1b:83:8c:e4:d4"]
       - attach_workspace:
-          at: ~/
+          at: ~/project/.circleci/ansible/inventory.txt
       - run:
           name: Install dependencies
           command: |
@@ -235,12 +235,12 @@ jobs:
           name: Configure server
           command: |
           
-            cat project/.circleci/ansible/inventory.txt
+            #cat ~/project/.circleci/ansible/inventory.txt
             echo " --- "
             cd ~/project/.circleci/ansible
             cat inventory.txt
             
-            ansible-playbook -i ~/inventory.txt configure-server.yml
+            ansible-playbook -i inventory.txt configure-server.yml
       - destroy-environment:
           workflow_id: "${CIRCLE_WORKFLOW_ID:0:7}"         
 
