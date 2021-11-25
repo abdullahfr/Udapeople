@@ -237,7 +237,7 @@ jobs:
             cd .circleci/ansible
             ansible-playbook -i inventory.txt configure-server.yml
       - destroy-environment:
-          workflow_id: "${CIRCLE_WORKFLOW_ID:0:7}"        
+          workflow_id: "${CIRCLE_WORKFLOW_ID:0:7}"         
 
   run-migrations:
     docker:
@@ -267,7 +267,7 @@ jobs:
       - run:
           name: Send migration results to memstash
           command: |
-            if grep -q "has been executed successfully." ~/project/backend/migration_${CIRCLE_WORKFLOW_ID:0:7}.txt"
+            if grep -q "has been executed successfully." ~/project/backend/migration_${CIRCLE_WORKFLOW_ID:0:7}.txt
             then
               curl -H "Content-Type: text/plain" -H "token: aa9c7a68-e4a1-49c0-a5a5-677faa7ae1d0" --request PUT --data "1" https://api.memstash.io/values/migration_${CIRCLE_WORKFLOW_ID:0:7}
             fi
