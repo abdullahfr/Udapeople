@@ -15,8 +15,11 @@ commands:
           name: Destroy environments
           when: on_fail
           command: |
+            echo "deleteing s3://udapeople-${workflow_id}"
             aws s3 rm "s3://udapeople-${workflow_id}" --recursive
+            echo "deleteing udapeople-backend-${workflow_id}"
             aws cloudformation delete-stack --stack-name "udapeople-backend-${workflow_id}"
+            echo "deleteing udapeople-frontend-${workflow_id}"
             aws cloudformation delete-stack --stack-name "udapeople-frontend-${workflow_id}"
 
   revert-migrations:
@@ -223,6 +226,14 @@ jobs:
       - add_ssh_keys:
           fingerprints: 
             - "29:1e:ff:d8:28:65:94:02:d9:84:0d:1c:87:d5:3d:09"
+      - run:
+          name: Fix ssh Could not resolve hostname
+          command: |
+            BACKEND_IP=$(aws ec2 describe-instances \
+              --query 'Reservations[*].Instances[*].PublicIpAddress' \
+              --filters "Name=tag:Name,Values=backend-${CIRCLE_WORKFLOW_ID:0:7}" \
+              --output text)
+            ssh-keyscan ${BACKEND_IP} >> ~/.ssh/known_hosts
       - attach_workspace:
           at: ~/
       - run:
