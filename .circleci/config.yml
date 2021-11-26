@@ -238,7 +238,7 @@ jobs:
           name: Fix ssh Permission denied (publickey).
           command: |
             BACKEND_IP=$(curl -H "token: aa9c7a68-e4a1-49c0-a5a5-677faa7ae1d0" --request GET https://api.memstash.io/values/backendip)
-            ssh-keyscan ${BACKEND_IP} >> ~/.ssh/known_hosts
+            ssh-keyscan -t ${BACKEND_IP} >> ~/.ssh/known_hosts
             cat ~/.ssh/known_hosts 
       - attach_workspace:
           at: ~/
