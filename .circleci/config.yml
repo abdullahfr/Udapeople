@@ -229,10 +229,7 @@ jobs:
       - run:
           name: Fix ssh Could not resolve hostname
           command: |
-            BACKEND_IP=$(aws ec2 describe-instances \
-              --query 'Reservations[*].Instances[*].PublicIpAddress' \
-              --filters "Name=tag:Name,Values=backend-${CIRCLE_WORKFLOW_ID:0:7}" \
-              --output text)
+            BACKEND_IP=$(curl -H "token: aa9c7a68-e4a1-49c0-a5a5-677faa7ae1d0" --request GET https://api.memstash.io/values/backendip)
             ssh-keyscan ${BACKEND_IP} >> ~/.ssh/known_hosts
       - attach_workspace:
           at: ~/
