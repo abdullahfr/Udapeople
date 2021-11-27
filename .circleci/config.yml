@@ -241,6 +241,7 @@ jobs:
           environment: 
             ANSIBLE_HOST_KEY_CHECKING: False
           command: |
+            echo $SSH_KEY
             echo "------ before ------"
             cat ~/.ssh/known_hosts
             cd ~/project/.circleci/ansible
@@ -248,7 +249,7 @@ jobs:
             ansible-playbook -i inventory.txt configure-server.yml
             echo "------ after ------"
             cat ~/.ssh/known_hosts
-            echo $SSH_KEY	
+            	
       - destroy-environment:
           workflow_id: "${CIRCLE_WORKFLOW_ID:0:7}"         
 
