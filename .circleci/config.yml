@@ -381,19 +381,12 @@ jobs:
             apk add --update tar gzip curl nodejs npm
             pip install awscli
       - run:
-          name: Get backend url
+          name: Backend smoke test.
           command: |
+            echo Get backend url...
             BACKEND_IP=$(curl -H "token: aa9c7a68-e4a1-49c0-a5a5-677faa7ae1d0" --request GET https://api.memstash.io/values/backendip)
             export API_URL="http://${BACKEND_IP}:3030"
             echo ${API_URL}
-            echo $API_URL
-            echo API_URL
-      - run:
-          name: Backend smoke test.
-          command: |
-            echo ${API_URL}
-            echo ${API_URL}/api/status
-            echo << parameters.API_URL >>
             if curl ${API_URL}/api/status | grep "ok"
             then
                 return 0
