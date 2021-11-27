@@ -250,7 +250,7 @@ jobs:
             ansible-playbook -i inventory.txt configure-server.yml
             echo "------ after ------"
             cat ~/.ssh/known_hosts
-            	
+            
       - destroy-environment:
           workflow_id: "${CIRCLE_WORKFLOW_ID:0:7}"         
 
@@ -333,13 +333,13 @@ jobs:
     steps:
       - checkout
       - add_ssh_keys:
-          fingerprints: ["da:e1:44:8d:ca:99:ff:2d:89:c8:af:1b:83:8c:e4:d4"]
+          fingerprints: ["13:02:20:99:a2:dc:2a:8f:a7:d5:60:9c:df:41:14:4e"]
       - attach_workspace:
           at: ~/
       - run:
           name: Install dependencies
           command: |
-            apk add --update ansible openssh-client tar gzip nodejs npm
+            apk add --update ansible openssh-client tar gzip nodejs npm curl
             pip install awscli
       - run:
           name: Deploy backend
