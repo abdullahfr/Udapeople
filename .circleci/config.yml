@@ -239,8 +239,6 @@ jobs:
       
       - run:
           name: Configure server
-          environment: 
-            ANSIBLE_HOST_KEY_CHECKING: False
           command: |
             echo $SSH_KEY
             echo "------ before ------"
@@ -395,6 +393,7 @@ jobs:
           command: |
             echo ${API_URL}
             echo ${API_URL}/api/status
+            echo << parameters.API_URL >>
             if curl ${API_URL}/api/status | grep "ok"
             then
                 return 0
