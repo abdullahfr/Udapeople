@@ -428,10 +428,10 @@ jobs:
             echo "saving OldWorkflowID in mismatch.io ..."
             curl -H "Content-Type: text/plain" -H "token: aa9c7a68-e4a1-49c0-a5a5-677faa7ae1d0" --request PUT --data "$OldWorkflowID" https://api.memstash.io/values/oldworkflowid_${CIRCLE_WORKFLOW_ID:0:7}
 
-            echo "creating InitialStack ..."
+            echo "creating Production Stack ..."
             aws cloudformation deploy \
                     --template-file .circleci/files/cloudfront.yml \
-                    --stack-name InitialStack \
+                    --stack-name ProductionStack \
                     --region ${AWS_DEFAULT_REGION} \
                     --parameter-overrides WorkflowID="udapeople-${CIRCLE_WORKFLOW_ID:0:7}" \
                     --tags project=udapeople
@@ -460,6 +460,9 @@ jobs:
       - run:
           name: Remove old stacks and files
           command: |
+            OldWorkflowID=$(curl -H  "token: aa9c7a68-e4a1-49c0-a5a5-677faa7ae1d0" --request GET \
+            https://api.memstash.io/values/oldworkflowid_${CIRCLE_WORKFLOW_ID})
+
             if [[ "${CIRCLE_WORKFLOW_ID:0:7}" =~ "${OldWorkflowID}" ]]
             then
               echo "deleting s3://udapeople-${OldWorkflowID}"
