@@ -236,12 +236,7 @@ jobs:
           name: Install AWS-CLI
           command: |
             pip install awscli   
-      - run:
-          name: Add backend (ECDSA) to the list of known hosts.
-          command: |
-            BACKEND_IP=$(curl -H "token: aa9c7a68-e4a1-49c0-a5a5-677faa7ae1d0" --request GET https://api.memstash.io/values/backendip)
-            ssh-keyscan -Ht ecdsa-sha2-nistp256 ${BACKEND_IP} >> ~/.ssh/known_hosts
-            cat ~/.ssh/known_hosts 
+      
       - run:
           name: Configure server
           environment: 
@@ -252,7 +247,6 @@ jobs:
             cat ~/.ssh/known_hosts
             cd ~/project/.circleci/ansible
             cat inventory.txt
-            #ssh -i newkey88.pem ubuntu@107.23.53.51 -o "StrictHostKeyChecking no" 
             ansible-playbook -i inventory.txt configure-server.yml
             echo "------ after ------"
             cat ~/.ssh/known_hosts
