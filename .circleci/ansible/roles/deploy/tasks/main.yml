@@ -8,7 +8,7 @@
   become: true
   shell: |
     cd /home/ubuntu
-    tar -xzvf /home/ubuntu/backend.tar.gz
+    tar -xzvf /home/ubuntu/backend.tar.gz  --xform='s|^|backend/|S'
 
 - name: "install package dependencies"
   shell: |

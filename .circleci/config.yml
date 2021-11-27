@@ -16,7 +16,7 @@ commands:
           when: on_fail
           command: |            
             echo "deleteing s3://udapeople-<< parameters.workflow_id >>"
-            aws s3 rm "s3://udapeople-ghfjjg<< parameters.workflow_id >>" --recursive
+            aws s3 rm "s3://udapeople-<< parameters.workflow_id >>" --recursive
             echo "deleteing udapeople-backend-<< parameters.workflow_id >>"
             aws cloudformation delete-stack --stack-name "udapeople-backend-<< parameters.workflow_id >>"
             echo "deleteing udapeople-frontend-<< parameters.workflow_id >>"
