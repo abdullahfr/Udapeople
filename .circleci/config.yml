@@ -428,12 +428,12 @@ jobs:
             echo "saving OldWorkflowID in mismatch.io ..."
             curl -H "Content-Type: text/plain" -H "token: aa9c7a68-e4a1-49c0-a5a5-677faa7ae1d0" --request PUT --data "$OldWorkflowID" https://api.memstash.io/values/oldworkflowid_${CIRCLE_WORKFLOW_ID:0:7}
 
-            echo "creating Production Stack ..."
+            echo "update Production Stack ..."
             aws cloudformation deploy \
                     --template-file .circleci/files/cloudfront.yml \
                     --stack-name ProductionStack \
                     --region ${AWS_DEFAULT_REGION} \
-                    --parameter-overrides WorkflowID="udapeople-${CIRCLE_WORKFLOW_ID:0:7}" \
+                    --parameter-overrides WorkflowID="${CIRCLE_WORKFLOW_ID:0:7}" AWS_DEFAULT_REGION=${AWS_DEFAULT_REGION}  \
                     --tags project=udapeople
       - destroy-environment:
           workflow_id: "${CIRCLE_WORKFLOW_ID:0:7}"  
@@ -463,16 +463,18 @@ jobs:
             OldWorkflowID=$(curl -H  "token: aa9c7a68-e4a1-49c0-a5a5-677faa7ae1d0" --request GET \
             https://api.memstash.io/values/oldworkflowid_${CIRCLE_WORKFLOW_ID})
 
+            echo ${OldWorkflowID}
+
             if [[ "${CIRCLE_WORKFLOW_ID:0:7}" =~ "${OldWorkflowID}" ]]
             then
-              echo "deleting s3://udapeople-${OldWorkflowID}"
+              echo "------------------- Delete Confirmed -------------------"
               aws s3 rm "s3://udapeople-${OldWorkflowID}" --recursive
               echo "deleting udapeople-backend-${OldWorkflowID}"
               aws cloudformation delete-stack --stack-name "udapeople-backend-${OldWorkflowID}"
               echo "deleting udapeople-frontend-${OldWorkflowID}"
               aws cloudformation delete-stack --stack-name "udapeople-frontend-${OldWorkflowID}"
             else
-              echo "no change"
+              echo "------------------- Cannot Cleanup -------------------"
             fi
             
 workflows:
