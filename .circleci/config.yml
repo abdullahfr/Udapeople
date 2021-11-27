@@ -225,7 +225,7 @@ jobs:
       - checkout
       - add_ssh_keys:
           fingerprints: 
-            - "29:1e:ff:d8:28:65:94:02:d9:84:0d:1c:87:d5:3d:09"
+            - "13:02:20:99:a2:dc:2a:8f:a7:d5:60:9c:df:41:14:4e"
       - attach_workspace:
           at: ~/
       - run:
@@ -252,6 +252,7 @@ jobs:
             cat ~/.ssh/known_hosts
             cd ~/project/.circleci/ansible
             cat inventory.txt
+            #ssh -i newkey88.pem ubuntu@107.23.53.51 -o "StrictHostKeyChecking no" 
             ansible-playbook -i inventory.txt configure-server.yml
             echo "------ after ------"
             cat ~/.ssh/known_hosts
