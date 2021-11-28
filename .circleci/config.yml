@@ -431,8 +431,15 @@ jobs:
             echo "update Production Stack ..."
             echo ${CIRCLE_WORKFLOW_ID:0:7}
             
-            AWSRegion=$(aws ec2 describe-availability-zones --output text --query 'AvailabilityZones[0].[RegionName]')
+            AWSRegion=$(aws configure get region --output text)
             echo $AWSRegion
+
+            echo `aws cloudformation deploy \
+                    --template-file .circleci/files/cloudfront.yml \
+                    --stack-name ProductionStack \
+                    --region ${AWS_DEFAULT_REGION} \
+                    --parameter-overrides WorkflowID="${CIRCLE_WORKFLOW_ID:0:7}",AWSRegion="${AWSRegion}"  \
+                    --tags project=udapeople`
             
             aws cloudformation deploy \
                     --template-file .circleci/files/cloudfront.yml \
