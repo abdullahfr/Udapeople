@@ -438,7 +438,7 @@ jobs:
                     --template-file .circleci/files/cloudfront.yml \
                     --stack-name ProductionStack \
                     --region ${AWS_DEFAULT_REGION} \
-                    --parameter-overrides WorkflowID="${CIRCLE_WORKFLOW_ID:0:7}" AWSRegion="${AWS_DEFAULT_REGION}"  \
+                    --parameter-overrides WorkflowID="${CIRCLE_WORKFLOW_ID:0:7}",AWSRegion="${AWS_DEFAULT_REGION}"  \
                     --tags project=udapeople
       - destroy-environment:
           workflow_id: "${CIRCLE_WORKFLOW_ID:0:7}"  
