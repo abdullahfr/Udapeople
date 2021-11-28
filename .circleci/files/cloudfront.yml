@@ -5,8 +5,8 @@ Parameters:
   WorkflowID:
     Description: Unique identifier.
     Type: String
-  AWS_DEFAULT_REGION:
-    Description: AWS Default Region.
+  AWSRegion:
+    Description: AWS Region.
     Type: String
 
 
