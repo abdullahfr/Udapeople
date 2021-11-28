@@ -431,7 +431,7 @@ jobs:
             echo "update Production Stack ..."
             echo ${CIRCLE_WORKFLOW_ID:0:7}
             echo "udapeople-${WorkflowID}.s3-website-${AWS_DEFAULT_REGION}.amazonaws.com"
-            Region=$(aws configure get region )
+            Region=$(aws configure get region --output text)
             echo $Region
             echo aws configure get region 
             aws cloudformation deploy \
