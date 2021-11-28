@@ -430,11 +430,10 @@ jobs:
 
             echo "update Production Stack ..."
             echo ${CIRCLE_WORKFLOW_ID:0:7}
-            # echo "udapeople-${WorkflowID}.s3-website-${AWS_DEFAULT_REGION}.amazonaws.com"
-            #AWSRegion=$(aws configure get region --output text)
+            
             AWSRegion=$(aws ec2 describe-availability-zones --output text --query 'AvailabilityZones[0].[RegionName]')
             echo $AWSRegion
-            echo aws configure get region 
+            
             aws cloudformation deploy \
                     --template-file .circleci/files/cloudfront.yml \
                     --stack-name ProductionStack \
