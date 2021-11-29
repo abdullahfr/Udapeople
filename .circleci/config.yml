@@ -430,6 +430,8 @@ jobs:
 
             echo ${CIRCLE_WORKFLOW_ID:0:7}
 
+            #wait
+
             echo "updating Production Stack ..."
             aws cloudformation deploy \
                     --template-file .circleci/files/cloudfront.yml \
