@@ -396,7 +396,7 @@ jobs:
       - run:
           name: Frontend smoke test.
           command: |
-            URL="http://udapeople-${CIRCLE_WORKFLOW_ID:0:7}.s3-website-us-east-1.amazonaws.com/#/employees"            
+            URL="http://udapeople-${CIRCLE_WORKFLOW_ID:0:7}.s3-website-${AWS_DEFAULT_REGION}.amazonaws.com/#/employees"            
             if curl -s ${URL} | grep "Welcome"
             then
               return 0
@@ -428,10 +428,6 @@ jobs:
             echo "saving OldWorkflowID in mismatch.io ..."
             curl -H "Content-Type: text/plain" -H "token: aa9c7a68-e4a1-49c0-a5a5-677faa7ae1d0" --request PUT --data "$OldWorkflowID" https://api.memstash.io/values/oldworkflowid_${CIRCLE_WORKFLOW_ID:0:7}
 
-            echo ${CIRCLE_WORKFLOW_ID:0:7}
-
-            #wait
-
             echo "updating Production Stack ..."
             aws cloudformation deploy \
                     --template-file .circleci/files/cloudfront.yml \
@@ -439,6 +435,9 @@ jobs:
                     --region ${AWS_DEFAULT_REGION} \
                     --parameter-overrides WorkflowID="${CIRCLE_WORKFLOW_ID:0:7}"  \
                     --tags project=udapeople
+
+            echo "Old Workflow ID: $OldWorkflowID"
+            echo "Current Workflow ID: ${CIRCLE_WORKFLOW_ID:0:7}"
       - destroy-environment:
           workflow_id: "${CIRCLE_WORKFLOW_ID:0:7}"  
       - revert-migrations:
@@ -455,8 +454,8 @@ jobs:
             OldWorkflowID=$(curl -H  "token: aa9c7a68-e4a1-49c0-a5a5-677faa7ae1d0" --request GET \
             https://api.memstash.io/values/oldworkflowid_${CIRCLE_WORKFLOW_ID})  
 
-            echo OldWorkflowID: "${OldWorkflowID}"
-            echo CIRCLE_WORKFLOW_ID "${CIRCLE_WORKFLOW_ID:0:7}"
+            echo Old Workflow ID: "${OldWorkflowID}"
+            echo Current Workflow ID: "${CIRCLE_WORKFLOW_ID:0:7}"
 
             export STACKS=($(aws cloudformation list-stacks --query "StackSummaries[*].StackName" \
                     --stack-status-filter CREATE_COMPLETE --no-paginate --output text)) 
@@ -466,8 +465,6 @@ jobs:
           command: |
             OldWorkflowID=$(curl -H  "token: aa9c7a68-e4a1-49c0-a5a5-677faa7ae1d0" --request GET \
             https://api.memstash.io/values/oldworkflowid_${CIRCLE_WORKFLOW_ID})
-
-            echo ${OldWorkflowID}
 
             if [[ "${CIRCLE_WORKFLOW_ID:0:7}" =~ "${OldWorkflowID}" ]]
             then
