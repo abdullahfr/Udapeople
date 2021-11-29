@@ -452,7 +452,7 @@ jobs:
           name: Get old stack workflow id
           command: |
             OldWorkflowID=$(curl -H  "token: aa9c7a68-e4a1-49c0-a5a5-677faa7ae1d0" --request GET \
-            https://api.memstash.io/values/oldworkflowid_${CIRCLE_WORKFLOW_ID})  
+            https://api.memstash.io/values/oldworkflowid_${CIRCLE_WORKFLOW_ID:0:7})  
 
             echo Old Workflow ID: "${OldWorkflowID}"
             echo Current Workflow ID: "${CIRCLE_WORKFLOW_ID:0:7}"
@@ -465,7 +465,10 @@ jobs:
           command: |
             OldWorkflowID=$(curl -H  "token: aa9c7a68-e4a1-49c0-a5a5-677faa7ae1d0" --request GET \
             https://api.memstash.io/values/oldworkflowid_${CIRCLE_WORKFLOW_ID})
-
+            
+            echo Old Workflow ID: "${OldWorkflowID}"
+            echo Current Workflow ID: "${CIRCLE_WORKFLOW_ID:0:7}"
+            
             if [[ "${CIRCLE_WORKFLOW_ID:0:7}" =~ "${OldWorkflowID}" ]]
             then
               echo "------------------- Delete Confirmed -------------------"
