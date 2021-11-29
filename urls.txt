@@ -1,0 +1,51 @@
+[URL01]  GitHub repository
+https://github.com/abdullahfr/Udapeople
+
+
+[URL02]  S3 Bucket
+http://udapeople-8a0840d.s3-website-us-east-1.amazonaws.com
+
+
+[URL03]  cloudfront
+d1fnwne0w2wu5e.cloudfront.net
+
+
+[URL04]  The backend endpoint health
+http://18.206.162.174:3030/api/status
+
+
+[URL05]  Prometheus Server
+http://ec2-3-80-210-198.compute-1.amazonaws.com:9090/
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
